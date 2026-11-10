@@ -1,0 +1,139 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+html {
+    background-image: none;
+    background: url(../images/BgImg.jpg);
+    font-family: Poppins;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+html, body {
+    height: 100vh;
+}
+a {
+    color:white;
+    text-decoration: none;
+    font-weight: 400;
+}
+h1 {
+    color: white;
+    font-weight: 800;
+    font-size: 50px;
+}
+.RecreationWord {
+    line-height: 0.5em;
+}
+.DirCardContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.DirCard {
+    width: 60%;
+    max-width: 900px; 
+    min-height: 350px; 
+    color: #f0f0f0;
+    background-color: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: 1px solid rgba(255, 255,255, 0.3);
+    border-left: 1px solid rgba(255,255,255, 0.3);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    padding: 15px;
+    box-sizing: border-box;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-evenly;
+}
+p {
+    color: white;
+}
+.NavBtns {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.NavBtns a {
+    transition: 400ms;
+}
+.NavBtns a:hover {
+    scale: 1.08;
+    background-color: white;
+    border-radius: 10px;
+    padding: 5px;
+    color: black;
+}
+.contentBox {
+    display: flex;
+    align-items: center;
+    gap: 30px; /* Added some gap for better spacing */
+}
+.contentBox img {
+    width: 40%;
+    height: auto;
+    border-radius: 16px;
+}
+#clock, #days {
+    font-weight: bold;
+    color: white;
+    font-size: 3rem;
+}
+.date {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* --- ANIMATION STYLES --- */
+
+/* Initial state for elements before animation */
+.hidden {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+/* Animation keyframes for a slide-in and fade-in effect */
+@keyframes slide-up {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/*
+  The `slide-in` animation is applied to a class added by JavaScript,
+  and each element has a different delay to create a staggered effect.
+*/
+.slide-in {
+    animation: slide-up 0.8s ease-out forwards;
+}
+
+/* Delay for the different elements */
+.date.slide-in {
+    animation-delay: 0.2s;
+}
+.DirCard.slide-in {
+    animation-delay: 0.5s;
+}
+.text-content.slide-in {
+    animation-delay: 1s;
+}
+.contentBox img.slide-in {
+    animation-delay: 1.2s;
+}

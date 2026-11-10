@@ -1,0 +1,18 @@
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Sensitive Database Credentials
+php/db.php
+
+# Backups & Temporary Files
+*.bak
+*.tmp
+
+# Uploaded Artwork Files (keep directory, ignore uploaded contents)
+uploads/*
+!uploads/.gitkeep
+
+# IDE Settings
+.vscode/
+.idea/

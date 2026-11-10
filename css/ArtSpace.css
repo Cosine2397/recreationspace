@@ -1,0 +1,374 @@
+/* ArtSpace.css - Refined Design with Animations */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #1a1a1a;
+    background-image: url(../images/download\ \(3\).jpg);
+    background-size: cover; /* Ensure background covers the area */
+    background-position: center; /* Center the background image */
+    background-attachment: fixed; /* Keep background fixed during scroll */
+    font-family: 'Poppins', sans-serif;
+    color: #f0f0f0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative; /* Needed for background animation */
+}
+
+/* Background Zoom Animation */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: inherit; /* Use the same background image */
+    background-size: 110%; /* Start slightly zoomed in */
+    background-position: center;
+    background-attachment: fixed;
+    filter: brightness(0.6) grayscale(0.2); /* Subtle dark overlay for readability */
+    animation: backgroundZoom 30s ease-in-out infinite alternate; /* Slow, gentle zoom */
+    z-index: -1; /* Place behind content */
+}
+
+@keyframes backgroundZoom {
+    from {
+        background-size: 110%;
+        background-position: center;
+    }
+    to {
+        background-size: 100%;
+        background-position: center;
+    }
+}
+
+
+.container {
+    width: 100%;
+    padding: 20px;
+}
+
+#NavBar { 
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 0;
+    margin-bottom: 40px;
+}
+
+#NavBar a {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+#NavBar a:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+h1 {
+    font-family: 'Playfair Display', serif;
+    color: #fff;
+    text-align: center;
+    font-size: 3.5rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 40px;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+}
+
+.card-container {
+    width: 90%;
+    max-width: 1200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    gap: 15px;
+}
+
+.card-wrapper {
+    display: flex;
+    width: 100%;
+    overflow-x: scroll;
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+.card-wrapper::-webkit-scrollbar {
+    display: none; /* Hides scrollbar for Chrome, Safari, Opera */
+}
+
+.card-wrapper div {
+    display: flex;
+    gap: 20px;
+    padding: 10px;
+    flex: 0 0 auto;
+}
+
+.card {
+    min-width: 300px; /* Ensure cards have a minimum width */
+    height: 320px;
+    border-radius: 15px;
+    padding: 20px;
+    text-decoration: none;
+    color: #f0f0f0;
+    background-color: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.card .card-img {
+    border-radius: 8px;
+    width: 100%;
+    height: 65%;
+    object-fit: cover; 
+    margin-bottom: 15px; 
+}
+
+.card span {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.card p {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.scroll-btn {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0; /* Prevent buttons from shrinking */
+}
+
+.scroll-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.upload {
+    text-align: center;
+    margin: 50px 0;
+}
+
+.upload a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 15px 35px;
+    border-radius: 50px;
+    color: #f0f0f0;
+    background-color: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: 1px solid rgba(255, 255,255, 0.3);
+    border-left: 1px solid rgba(255,255,255, 0.3);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    transition: all 0.3s ease;
+}
+
+.upload a:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Dots for Carousel */
+.dots-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.dot {
+    height: 10px;
+    width: 10px;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.dot.active {
+    background-color: #fff;
+    transform: scale(1.2);
+}
+
+
+/* Toast Notification */
+.toast-notification {
+    position: fixed;
+    top: 20px; /* Positions the box 20px from the top */
+    right: -400px; /* Initially off-screen to the right */
+    width: 300px;
+    padding: 15px 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: right 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Poppins', sans-serif;
+    z-index: 1000;
+}
+
+.toast-notification.active {
+    right: 20px; /* Slides into view, 20px from the right edge */
+}
+
+.toast-close-btn {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    font-size: 24px;
+    font-weight: 300;
+    color: #999;
+    cursor: pointer;
+    line-height: 1;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+.toast-close-btn:hover {
+    opacity: 1;
+}
+
+.toast-title {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+.toast-message {
+    font-size: 0.9em;
+    color: #666;
+}
+
+/* --- ANIMATION STYLES --- */
+
+/* Initial state for elements before animation */
+.hidden {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+/* Base slide-in animation */
+@keyframes slide-fade-in-up {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Specific animation for NavBar to come from top */
+@keyframes slide-fade-in-down {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animation for cards to scale up slightly */
+@keyframes card-fade-in {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+/* Apply base animation to elements, will be triggered by JS */
+.animate-on-load {
+    animation-fill-mode: backwards; /* Ensures element starts at 'from' state */
+}
+
+/* Staggered delays for a smoother entrance */
+#NavBar.animate-on-load {
+    animation: slide-fade-in-down 0.8s ease-out forwards;
+    animation-delay: 0.2s;
+}
+
+h1.animate-on-load {
+    animation: slide-fade-in-up 0.8s ease-out forwards;
+    animation-delay: 0.4s;
+}
+
+.card-container.animate-on-load {
+    animation: slide-fade-in-up 0.8s ease-out forwards;
+    animation-delay: 0.6s;
+}
+
+.card.animate-on-load {
+    animation: card-fade-in 0.6s ease-out forwards;
+    /* Delay will be set by JavaScript for staggering */
+}
+
+.upload.animate-on-load {
+    animation: slide-fade-in-up 0.8s ease-out forwards;
+    animation-delay: 0.8s;
+}
+
+.dots-container.animate-on-load {
+    animation: slide-fade-in-up 0.8s ease-out forwards;
+    animation-delay: 1s;
+}
+
+
+/* Media Queries */
+@media (max-width: 768px) {
+    h1 { font-size: 2.5rem; }
+    .card-container { width: 100%; }
+    .scroll-btn { display: none; }
+    #NavBar {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

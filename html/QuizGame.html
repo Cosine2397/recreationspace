@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Coffee Quiz Game</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins ';
+      background-color: #042820;
+      color: #042820;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: 'Poppins';
+    }
+
+    .quiz-container {
+      background: #ffffb4;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      width: 450px;
+      text-align: center;
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    .quiz-container h1 {
+      margin-bottom: 20px;
+      font-size: 1.8em;
+      color: #042820;
+    }
+
+    .question {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeSlide 0.6s ease-in-out;
+    }
+
+    .options button {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 8px;
+      background: #042820;
+      color: #ffffb4;
+      font-size: 1em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .options button:hover {
+      background: #064f3b;
+      transform: translateY(-2px);
+    }
+
+    .options button.correct {
+      background: #4CAF50 !important;
+      color: white;
+    }
+
+    .options button.wrong {
+      background: #E63946 !important;
+      color: white;
+    }
+
+    #next-btn {
+      margin-top: 15px;
+      padding: 12px 20px;
+      background: #042820;
+      color: #ffffb4;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1em;
+      display: none;
+      transition: all 0.3s ease;
+    }
+
+    #next-btn:hover {
+      background: #064f3b;
+      transform: translateY(-2px);
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: scale(0.9);}
+      to {opacity: 1; transform: scale(1);}
+    }
+
+    @keyframes fadeSlide {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+<body>
+
+  <div class="quiz-container">
+    <h1>Coffee Quiz</h1>
+    <div class="question" id="question">Loading question...</div>
+    <div class="options" id="options"></div>
+    <button id="next-btn">Next</button>
+  </div>
+  <button onclick="exitGame()">Exit</button>
+
+  <script>
+    const allQuestions = [
+      { question: "What ratio of a latte is made of?", options: ["Milk and coffee", "Water and coffee", "Water, milk and coffee"], answer: 0 },
+      { question: "Espresso is brewed by forcing hot water through?", options: ["Tea leaves", "Ground coffee beans", "Milk foam"], answer: 1 },
+      { question: "Which coffee drink has equal parts espresso, steamed milk, and foam?", options: ["Cappuccino", "Americano", "Latte"], answer: 0 },
+      { question: "What country is the largest producer of coffee?", options: ["Brazil", "Vietnam", "Colombia"], answer: 0 },
+      { question: "Cold brew coffee is made using?", options: ["Hot water instantly", "Cold water over time", "Milk only"], answer: 1 },
+      { question: "What’s added to make a Mocha?", options: ["Chocolate", "Tea", "Vanilla"], answer: 0 },
+      { question: "Which has more caffeine?", options: ["Espresso shot", "Drip coffee cup"], answer: 1 },
+      { question: "What’s the main coffee-growing region in Ethiopia?", options: ["Sidamo", "Napoli", "Osaka"], answer: 0 },
+      { question: "Flat White originated in?", options: ["Italy", "Australia/New Zealand", "USA"], answer: 1 },
+      { question: "What grind size is best for espresso?", options: ["Coarse", "Medium", "Fine"], answer: 2 },
+      { question: "Which brewing method uses a plunger?", options: ["French Press", "Pour Over", "Moka Pot"], answer: 0 },
+      { question: "Americano is made by adding?", options: ["Milk to espresso", "Water to espresso", "Foam to espresso"], answer: 1 },
+      { question: "What type of roast is darkest?", options: ["Light", "Medium", "French/Dark"], answer: 2 },
+      { question: "Macchiato means?", options: ["Stained/Spotted", "Sweetened", "Strong"], answer: 0 },
+      { question: "Which country invented the Moka pot?", options: ["Spain", "Italy", "France"], answer: 1 },
+      { question: "Affogato is espresso with?", options: ["Ice cream", "Milk", "Whipped cream"], answer: 0 },
+      { question: "What’s the top coffee importer globally?", options: ["USA", "Japan", "Germany"], answer: 0 },
+      { question: "Café au lait means coffee with?", options: ["Milk", "Water", "Foam"], answer: 0 },
+      { question: "Which coffee bean is less bitter?", options: ["Robusta", "Arabica", "Liberica"], answer: 1 },
+      { question: "What is crema on espresso?", options: ["Milk foam", "Coffee oil emulsion", "Chocolate"], answer: 1 }
+    ];
+
+    let questions = [];
+    let currentIndex = 0;
+    let score = 0;
+
+    function startQuiz() {
+      // pick 5 random questions from allQuestions
+      questions = allQuestions.sort(() => Math.random() - 0.5).slice(0, 5);
+      currentIndex = 0;
+      score = 0;
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const q = questions[currentIndex];
+      document.getElementById("question").innerText = q.question;
+      const optionsContainer = document.getElementById("options");
+      optionsContainer.innerHTML = "";
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement("button");
+        btn.innerText = opt;
+        btn.onclick = () => selectAnswer(i, btn, q.answer);
+        optionsContainer.appendChild(btn);
+      });
+      document.getElementById("next-btn").style.display = "none";
+    }
+
+    function selectAnswer(choice, btn, correct) {
+      const options = document.querySelectorAll(".options button");
+      options.forEach(b => b.disabled = true);
+
+      if (choice === correct) {
+        btn.classList.add("correct");
+        score++;
+      } else {
+        btn.classList.add("wrong");
+        options[correct].classList.add("correct");
+      }
+
+      document.getElementById("next-btn").style.display = "inline-block";
+    }
+
+    document.getElementById("next-btn").addEventListener("click", () => {
+      currentIndex++;
+      if (currentIndex < questions.length) {
+        showQuestion();
+      } else {
+        showScore();
+      }
+    });
+
+    function showScore() {
+      document.getElementById("question").innerText = `🎉 You scored ${score} / ${questions.length}`;
+      document.getElementById("options").innerHTML = "";
+      document.getElementById("next-btn").innerText = "Play Again";
+      document.getElementById("next-btn").onclick = () => location.reload();
+      document.getElementById("next-btn").style.display = "inline-block";
+    }
+
+    startQuiz();
+    function exitGame() {
+  window.location.href = "GameCorner.html";
+}
+  </script>
+</body>
+</html>

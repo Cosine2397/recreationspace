@@ -1,0 +1,288 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-weight: 400;
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    transition: 400ms;
+}
+
+h1 {
+    font-weight: 700;
+    font-size: 50px;
+    color: #ffffb4;
+}
+
+h3 {
+    font-weight: 500;
+    color: #ffffb4;
+    max-width: 800px;
+}
+
+#block1 {
+    background-image: url(../images/leaf-removebg-preview.png);
+    background-size: 35%;
+    background-repeat: no-repeat;
+    background-position-y: bottom;
+    width: 100%;
+    height: 100vh;
+    background-color: #042820;
+    text-align: center;
+}
+
+.NavBarHolder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#NavBar {
+    width: 90%;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px 0;
+}
+
+#NavBar a {
+    text-decoration: none;
+    color: #ffffb4;
+    font-size: 1.2rem;
+    padding: 10px;
+    white-space: nowrap;
+}
+
+a:hover {
+    scale: 1.09;
+}
+
+.homeCafeImg {
+    max-width: 40%;
+    height: auto;
+    object-fit:contain;
+}
+
+.BlockOneSubBlock {
+    display: flex;
+    height: 80%;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 20px;
+    color: #ffffb4;
+}
+
+.MotoBlock {
+    text-align: center;
+    width: 45%;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: justify;
+    gap: 20px;
+}
+
+.MusicDiscContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-align: center;
+    transition: transform 400ms ease;
+}
+
+.MusicDiscContainer:hover {
+    transform: scale(1.06);
+    border-radius: 12%;
+}
+
+.MusicDisc {
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    transition: 400ms;
+}
+
+.MusicDiscLabel {
+    color: #ffffb4;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+#RotatingMusic {
+    animation: RotatingDisc 30s infinite linear;
+}
+
+@keyframes RotatingDisc {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.MainPageBtns {
+    padding: 2%;
+    display: flex;
+    width: 100%;
+    max-width: 400px;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 15px;
+}
+
+.OrderBtn,
+.GameBtn {
+    padding: 15px 30px;
+    border-radius: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.OrderBtn {
+    background-color: #ffffb4;
+    color: #0a322a;
+}
+
+.OrderBtn:hover {
+    box-shadow:0 2px 8px #042820;
+}
+
+.GameBtn {
+    border: 2px solid #ffffb4;
+    color: #ffffb4;
+}
+
+.GameBtn:hover {
+    box-shadow: 0 2px 7px #ffffb4;
+}
+
+/*Block1 css End and Block2 start Here*/
+#block2 {
+    background: url(../images/bg2.png) no-repeat center center/cover;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap-reverse;
+    padding: 20px;
+}
+
+.bakeryMotoBlock {
+    display: flex;
+    width: 70%;
+    min-width: 300px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    text-align: justify;
+}
+
+.BakeryMoto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+}
+
+.bakeryMoto1 {
+    color: #0a322a;
+    font-size: 2.5rem;
+}
+
+.bakeryMoto2 {
+    color: #0a322a;
+    max-width: 800px;
+}
+
+.bakeryImg {
+    width: 40%;
+    height: 60%;
+    object-fit: contain;
+   
+}
+
+.menubtn {
+    padding: 15px 30px;
+    border: 2px solid #0a322a;
+    color: #0a322a;
+    border-radius: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.menubtn:hover {
+    box-shadow: 0 5px 7px #072a23;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    #block1, #block2 {
+        height: auto;
+        padding: 50px 20px;
+    }
+
+    .BlockOneSubBlock{
+        flex-direction: row;
+    }
+    #block2 {
+        flex-direction: column;
+        text-align: center;
+        gap: 40px;
+    }
+
+    .homeCafeImg{
+        width: 0;
+        height: 0;
+    }
+    .bakeryImg {
+        max-width: 80%;
+    }
+
+    .MotoBlock, .BakeryMoto, .bakeryMotoBlock {
+        width: 100%;
+        min-width: auto;
+    }
+
+    #NavBar {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    #NavBar a {
+        padding: 5px;
+        font-size: 1rem;
+    }
+
+    h1 {
+        font-size: 40px;
+    }
+    
+    h3 {
+        font-size: 1rem;
+    }
+
+    .MusicDiscContainer {
+        margin-top: 15px;
+    }
+}

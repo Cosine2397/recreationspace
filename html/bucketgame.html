@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coffee Bean Catch Game</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: #042820;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    color: #ffffb4;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  #gameArea {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  #gameTitle {
+    font-size: 48px;
+    color: #ffffb4;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+    margin-bottom: 5px;
+  }
+
+  #score {
+    font-size: 20px; /* smaller text */
+    margin-bottom: 10px;
+    color: #ffffb4; /* same color as other text */
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+  }
+
+  canvas {
+    background: #ffffb4;
+    border: 5px solid #4e342e;
+    border-radius: 15px;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+  }
+
+  /* BUTTON STYLES */
+  .game-button {
+    font-family: 'Poppins', sans-serif;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    background: #ffffb4;
+    color: #042820;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+    transition: all 0.3s ease, transform 0.2s ease;
+    position: absolute;
+  }
+
+  .game-button:hover {
+    background: #042820;
+    color: #ffffb4;
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  }
+
+  .game-button:active {
+    transform: translateY(0);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+  }
+
+  #startBtn {
+    top: 280px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  #exitBtn {
+    top: 20px;
+    right: 20px;
+  }
+
+  #playAgainBtn {
+    top: 350px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+  }
+
+  /* Game Over overlay */
+  #gameOverOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 500px;
+    height: 600px;
+    background: rgba(4,40,32,0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #ffffb4;
+    font-family: 'Poppins', sans-serif;
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 15px;
+    display: none;
+    z-index: 10;
+  }
+</style>
+</head>
+<body>
+
+<div id="gameArea">
+  <div id="gameTitle">Coffee Bean Catch</div>
+  <div id="score">Score: 0</div> <!-- Moved below title, smaller text -->
+  <canvas id="gameCanvas" width="500" height="600"></canvas>
+</div>
+
+<button id="startBtn" class="game-button">Start</button>
+<button id="exitBtn" class="game-button">Exit</button>
+<button id="playAgainBtn" class="game-button">Play Again</button>
+
+<div id="gameOverOverlay">
+  <div>Game Over!</div>
+  <div id="finalScore" style="margin-top: 20px; font-size: 24px;"></div>
+</div>
+
+<script>
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+const startBtn = document.getElementById("startBtn");
+const exitBtn = document.getElementById("exitBtn");
+const playAgainBtn = document.getElementById("playAgainBtn");
+const gameOverOverlay = document.getElementById("gameOverOverlay");
+const finalScore = document.getElementById("finalScore");
+
+// Images
+const bucketImg = new Image();
+bucketImg.src = "../images/containernew.png";
+const beanImg = new Image();
+beanImg.src = "../images/coffeebeanfall.png";
+
+// Bucket
+let bucket = { x: canvas.width/2-40, y: canvas.height-70, width:80, height:60, speed:4, dx:0 };
+
+// Game state
+let beans=[], score=0, missed=0, gameOver=false, gameStarted=false, isDragging=false, lastBeanRow=-1;
+
+// Draw bucket
+function drawBucket(){ ctx.drawImage(bucketImg, bucket.x, bucket.y, bucket.width, bucket.height); }
+
+// Create bean
+function createBean(isPreview=false){
+  const beanSize=30; let row;
+  do{ row=Math.floor(Math.random()*10); } while(row===lastBeanRow);
+  lastBeanRow=row;
+  const padding=5, rowWidth=canvas.width/10;
+  let x=row*rowWidth+padding+Math.random()*(rowWidth-beanSize-padding*2);
+  let speed = isPreview ? Math.random()*0.8 + 0.3 : Math.min(1.5 + score*0.1, 8);
+  beans.push({x, y:0, size:beanSize, speed});
+}
+
+// Draw beans
+function drawBeans(){ beans.forEach(b=>ctx.drawImage(beanImg,b.x,b.y,b.size,b.size)); }
+
+// Move beans
+function moveBeans(stableBucket=false){
+  beans.forEach((bean,index)=>{
+    bean.y += bean.speed;
+    if(gameStarted){
+      if(bean.y+bean.size>canvas.height){ beans.splice(index,1); missed++; if(missed>=5) endGame(); }
+      if(!stableBucket && bean.y+bean.size>bucket.y && bean.x+bean.size/2>bucket.x && bean.x+bean.size/2<bucket.x+bucket.width){
+        beans.splice(index,1); score++; document.getElementById("score").innerText="Score: "+score;
+      }
+    } else {
+      if(bean.y>canvas.height) beans.splice(index,1);
+    }
+  });
+}
+
+// End Game
+function endGame(){
+  gameOver=true;
+  gameOverOverlay.style.display="flex";
+  finalScore.innerText = "Final Score: " + score;
+  playAgainBtn.style.display="block";
+}
+
+// Move bucket
+function moveBucket(){ bucket.x+=bucket.dx; if(bucket.x<0) bucket.x=0; if(bucket.x+bucket.width>canvas.width) bucket.x=canvas.width-bucket.width; }
+
+// Clear canvas
+function clear(){ ctx.clearRect(0,0,canvas.width,canvas.height); }
+
+// Main loop
+function update(){
+  clear(); drawBucket(); drawBeans(); moveBucket(); moveBeans();
+  if(gameOver) return;
+  requestAnimationFrame(update);
+}
+
+// Preview mode: gradual falling beans
+function preview(){
+  if(gameStarted) return;
+  clear();
+  bucket.x = canvas.width/2 - bucket.width/2; // stable bucket
+  drawBucket();
+  drawBeans();
+  moveBeans(true);
+  requestAnimationFrame(preview);
+}
+
+// Spawn beans gradually
+let previewInterval, beanInterval;
+function startPreview(){
+  previewInterval = setInterval(()=>{ createBean(true); }, 1000);
+  preview();
+}
+
+function startGame(){
+  gameStarted=true; gameOver=false; beans=[]; score=0; missed=0; lastBeanRow=-1;
+  document.getElementById("score").innerText="Score: 0";
+  startBtn.style.display="none"; playAgainBtn.style.display="none"; gameOverOverlay.style.display="none";
+  clearInterval(previewInterval);
+  beanInterval = setInterval(()=>{ createBean(false); }, 800);
+  update();
+}
+
+function stopGameInterval(){ clearInterval(beanInterval); }
+
+// Controls
+document.addEventListener("keydown",e=>{ if(!gameStarted) return; if(e.key==="ArrowRight"||e.key==="d") bucket.dx=bucket.speed; if(e.key==="ArrowLeft"||e.key==="a") bucket.dx=-bucket.speed; });
+document.addEventListener("keyup",e=>{ if(!gameStarted) return; if(["ArrowRight","ArrowLeft","a","d"].includes(e.key)) bucket.dx=0; });
+
+// Drag bucket
+canvas.addEventListener("mousedown",e=>{ if(!gameStarted) return; let rect=canvas.getBoundingClientRect(); let mouseX=e.clientX-rect.left; let mouseY=e.clientY-rect.top; if(mouseX>=bucket.x&&mouseX<=bucket.x+bucket.width && mouseY>=bucket.y&&mouseY<=bucket.y+bucket.height) isDragging=true; });
+canvas.addEventListener("mousemove",e=>{ if(!isDragging) return; let rect=canvas.getBoundingClientRect(); bucket.x=e.clientX-rect.left-bucket.width/2; if(bucket.x<0) bucket.x=0; if(bucket.x+bucket.width>canvas.width) bucket.x=canvas.width-bucket.width; });
+canvas.addEventListener("mouseup",()=>isDragging=false);
+canvas.addEventListener("mouseleave",()=>isDragging=false);
+
+// Buttons
+startBtn.addEventListener("click", startGame);
+exitBtn.addEventListener("click",()=>{ alert("Thanks for playing!"); window.location.reload(); });
+playAgainBtn.addEventListener("click", startGame);
+
+// Start preview
+bucketImg.onload = () => { beanImg.onload = () => { startBtn.style.display="block"; exitBtn.style.display="block"; startPreview(); } };
+</script>
+
+</body>
+</html>

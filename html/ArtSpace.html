@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Art Space</title>
+    <link rel="stylesheet" href="../css/ArtSpace.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="block-one">
+        <div id="NavBar" class="animate-on-load hidden">
+          <a href="../html/Main.html">Recreation Space</a>
+          <a href="../html/Cafe.html">Cafe</a>
+          <a href="../html/GameCorner.html">GamesCorner</a>
+          <a href="../html/aboutus.html">About us</a>
+        </div>
+
+        <h1 class="animate-on-load hidden">Community Events</h1>
+        <div class="card-container animate-on-load hidden">
+          <button class="material-symbols-outlined scroll-btn" id="backBtn">arrow_back</button>
+          <div class="card-wrapper">
+            <div>
+              <a href="" class="card animate-on-load hidden">
+                <img src="../images/community3.jpg" class="card-img" alt="" />
+                <span>K-pop dance Class</span>
+                <p>Sat, Sun</p>
+              </a>
+              <a href="" class="card animate-on-load hidden">
+                <img src="../images/community1.jpg" class="card-img" alt="" />
+                <span>Coffee brewing class</span>
+                <p>Monday Evening, 3pm - 5pm</p>
+              </a>
+              <a href="" class="card animate-on-load hidden">
+                <img src="../images/community2.jpg" class="card-img" alt="" />
+                <span>Latte art class</span>
+                <p>Friday Evening, 4pm - 5pm</p>
+              </a>
+            </div>
+      
+            <div>
+              <a href="" class="card animate-on-load hidden">
+                <img src="../images/community4.jpg" class="card-img" alt="" />
+                <span>Break Dance Class</span>
+                <p>Sat, Sun</p>
+              </a>
+              <a href="" class="card animate-on-load hidden">
+                <img src="../images/community5.jpg" class="card-img" alt="" />
+                <span>Sketching class</span>
+                <p>Satday Evening, 4pm - 5pm</p>
+              </a>
+              <a href="" class="card animate-on-load hidden">
+                <img src="../images/community6.jpg" class="card-img" alt="" />
+                <span>Water painting class</span>
+                <p>Sunday Morning, 8am - 10am</p>
+              </a>
+            </div>
+          </div>
+          <button class="material-symbols-outlined scroll-btn" id="forwardBtn">arrow_forward</button>
+        </div>
+        <div class="upload animate-on-load hidden">
+          <a href="gallery.php">Community Art Gallery.    </a>
+        </div>
+        <div class="dots-container animate-on-load hidden"></div>
+    </div>
+    <div class="toast-notification" id="notificationBox">
+      <span class="toast-close-btn">&times;</span>
+      <div class="toast-content">
+        <h3 class="toast-title">Enrollment Successful!</h3>
+        <p class="toast-message"></p>
+      </div>
+    </div>
+    <script src="../js/ArtSpace.js"></script>
+  </body>
+</html>

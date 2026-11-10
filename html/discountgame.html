@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Coffee Quiz Game</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins';
+      background-color: #042820;
+      color: #042820;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .quiz-container {
+      background: #ffffb4;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      width: 450px;
+      text-align: center;
+      animation: fadeIn 0.6s ease-in-out;
+      margin-bottom: 20px;
+    }
+
+    .quiz-container h1 {
+      margin-bottom: 20px;
+      font-size: 1.8em;
+      color: #042820;
+    }
+
+    .question {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeSlide 0.6s ease-in-out;
+    }
+
+    .options button {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 8px;
+      background: #042820;
+      color: #ffffb4;
+      font-size: 1em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .options button:hover {
+      background: #064f3b;
+      transform: translateY(-2px);
+    }
+
+    .options button.correct {
+      background: #4CAF50 !important;
+      color: white;
+    }
+
+    .options button.wrong {
+      background: #E63946 !important;
+      color: white;
+    }
+
+    #next-btn {
+      margin-top: 15px;
+      padding: 12px 20px;
+      background: #042820;
+      color: #ffffb4;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1em;
+      display: none;
+      transition: all 0.3s ease;
+    }
+
+    #next-btn:hover {
+      background: #064f3b;
+      transform: translateY(-2px);
+    }
+
+    .exit-btn {
+      padding: 10px 20px;
+      background: #ffffb4;
+      color: #042820;
+      border: 2px solid #042820;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: all 0.3s ease;
+    }
+
+    .exit-btn:hover {
+      background: #042820;
+      color: #ffffb4;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: scale(0.9);}
+      to {opacity: 1; transform: scale(1);}
+    }
+
+    @keyframes fadeSlide {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+<body>
+
+  <div class="quiz-container">
+    <h1>Coffee Quiz</h1>
+    <div class="question" id="question">Loading question...</div>
+    <div class="options" id="options"></div>
+    <div id="score-display" style="margin:10px 0; font-weight:bold; color:#042820;"></div>
+    <button id="next-btn">Next</button>
+  </div>
+  <button class="exit-btn" onclick="exitGame()">Exit</button>
+
+  <script>
+   const allQuestions = [
+    { question: "What species of coffee bean is known for its smooth, complex flavor and lower caffeine content?", options: ["Liberica", "Robusta", "Arabica"], answer: 2 },
+    { question: "The coffee plant primarily grows in a region known as the...?", options: ["Bean Belt", "Coffee Crescent", "Java Zone"], answer: 0 },
+    { question: "What is the process of removing the caffeine from coffee beans called?", options: ["De-brewing", "Decoction", "Decaffeination"], answer: 2 },
+    { question: "Which of these is a traditional Italian coffee drink, meaning 'coffee with a spot of milk'?", options: ["Cortado", "Macchiato", "Piccolo"], answer: 1 },
+    { question: "What is the name of the device that uses steam pressure to force water through finely-ground coffee?", options: ["Aeropress", "Espresso Machine", "Syphon Brewer"], answer: 1 },
+    { question: "Which brewing method involves coffee grounds steeped in cold water for an extended period (12-24 hours)?", options: ["Iced Coffee", "Cold Drip", "Cold Brew"], answer: 2 },
+    { question: "What is the term for the golden-brown layer of foam on top of a well-pulled shot of espresso?", options: ["Krema", "Crema", "Foama"], answer: 1 },
+    { question: "Which country is traditionally credited with the discovery of coffee?", options: ["Brazil", "Colombia", "Ethiopia"], answer: 2 },
+    { question: "What is the main chemical stimulant found in coffee?", options: ["Theanine", "Caffeine", "Theobromine"], answer: 1 },
+    { question: "Which of these is NOT a standard coffee roast level?", options: ["City Roast", "French Roast", "Italian Roast"], answer: 0 }, // City is a term, but not as common for quizzes. French/Italian are standard dark roasts.
+    { question: "What is a 'shot' of espresso typically measured in?", options: ["Ounces", "Grams", "Milliliters"], answer: 0 }, // Typically 1-2 oz
+    { question: "The 'Coffee Break' became a popular custom in which country during the early 20th century?", options: ["Italy", "United States", "Turkey"], answer: 1 },
+    { question: "What is the name of the small pot that brews coffee by passing boiling water through ground coffee using steam pressure?", options: ["French Press", "Moka Pot", "Chemex"], answer: 1 },
+    { question: "Which coffee drink is made by pulling a shot of espresso over a small amount of steamed milk?", options: ["Flat White", "Cortado", "Cappuccino"], answer: 1 },
+    { question: "What part of the coffee fruit (cherry) is the 'bean' actually?", options: ["The Skin", "The Pit/Seed", "The Pulp"], answer: 1 },
+    { question: "What is the term for the undesirable sour or sharp taste in a coffee caused by under-extraction?", options: ["Acidity", "Bitterness", "Sweetness"], answer: 0 }, // In this context, it's the negative version of acidity.
+    { question: "Which of these is a popular coffee-based dessert?", options: ["Espresso Martini", "Tiramisu", "Affogato"], answer: 1 }, // Both B and C are, but Tiramisu is more complex and famous.
+    { question: "What does the 'Americano' coffee drink mimic?", options: ["Drip Coffee", "French Press Coffee", "Turkish Coffee"], answer: 0 },
+    { question: "The practice of adding sugar to coffee grounds before brewing is common in which part of the world?", options: ["Scandinavia", "The Middle East", "Latin America"], answer: 1 },
+    { question: "What is the name for the highest grade of coffee bean, where only a single, round bean grows inside the cherry?", options: ["Peaberry", "Maragogype", "Supremo"], answer: 0 }
+];
+
+    let questions = [];
+    let currentIndex = 0;
+    let score = 0;
+
+    function startQuiz() {
+      // pick 5 random questions from allQuestions
+      questions = allQuestions.sort(() => Math.random() - 0.5).slice(0, 5);
+      currentIndex = 0;
+      score = 0;
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const q = questions[currentIndex];
+      document.getElementById("question").innerText = q.question;
+      const optionsContainer = document.getElementById("options");
+      optionsContainer.innerHTML = "";
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement("button");
+        btn.innerText = opt;
+        btn.onclick = () => selectAnswer(i, btn, q.answer);
+        optionsContainer.appendChild(btn);
+      });
+      document.getElementById("next-btn").style.display = "none";
+      // Show current score
+      document.getElementById("score-display").innerText = `Score: ${score} / ${questions.length}`;
+    }
+
+    function selectAnswer(choice, btn, correct) {
+      const options = document.querySelectorAll(".options button");
+      options.forEach(b => b.disabled = true);
+
+      if (choice === correct) {
+        btn.classList.add("correct");
+        score++;
+      } else {
+        btn.classList.add("wrong");
+        options[correct].classList.add("correct");
+      }
+
+      document.getElementById("next-btn").style.display = "inline-block";
+      // Update score display after answer
+      document.getElementById("score-display").innerText = `Score: ${score} / ${questions.length}`;
+    }
+
+    document.getElementById("next-btn").addEventListener("click", () => {
+      currentIndex++;
+      if (currentIndex < questions.length) {
+        showQuestion();
+      } else {
+        showScore();
+      }
+    });
+
+    function showScore() {
+      // Calculate discount based on score
+      let discount = 0;
+      if (score === 5) discount = 20;
+      else if (score === 4) discount = 15;
+      else if (score === 3) discount = 10;
+      
+      // Store score and discount in sessionStorage
+      sessionStorage.setItem('quizScore', score);
+      sessionStorage.setItem('quizDiscount', discount);
+      
+      document.getElementById("question").innerText = `🎉 You scored ${score} / ${questions.length}`;
+      document.getElementById("options").innerHTML = "";
+      document.getElementById("score-display").innerText = `Final Score: ${score} / ${questions.length}`;
+      
+      if (discount > 0) {
+        document.getElementById("options").innerHTML = `<p>You've earned a ${discount}% discount on your order!</p>`;
+      } else {
+        document.getElementById("options").innerHTML = `<p>Better luck next time! No discount earned.</p>`;
+      }
+      
+      document.getElementById("next-btn").innerText = "Return to Menu";
+      document.getElementById("next-btn").onclick = () => {
+        window.location.href = "menu.html"; // Return to menu page
+      };
+      document.getElementById("next-btn").style.display = "inline-block";
+    }
+
+    function exitGame() {
+      window.location.href = "menu.html"; // Return to menu page without completing quiz
+    }
+
+    startQuiz();
+  </script>
+</body>
+</html>

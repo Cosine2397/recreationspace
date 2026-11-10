@@ -1,0 +1,88 @@
+/* General body styling */
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #042820, #021f1b);
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+    min-height: 100vh;
+  }
+  
+  /* Navbar (keep your style) */
+  #NavBar {   
+    width: 100%;
+    height: 70px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 0 0 20px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  #NavBar a {
+    text-decoration: none;
+    color: #ffffb4;
+    font-size: 1.2em;
+    padding: 10px 20px;
+    transition: all 0.3s ease;
+    text-align: center;
+  }
+  #NavBar a:hover {
+    scale: 1.09;
+  }
+  
+  /* Game Section */
+  .game-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px 20px;
+  }
+  
+  .game-section h1 {
+    font-size: 2.5em;
+    margin-bottom: 40px;
+    color: #ffffb4;
+  }
+  
+  /* Game cards container */
+  .game-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+  }
+  
+  /* Individual game card */
+  .game-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 250px;
+    height: 150px;
+    padding: 20px;
+    border-radius: 16px;
+    text-decoration: none;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    transition: all 0.4s ease;
+    text-align: center;
+  }
+  .game-card h2 {
+    margin: 0 0 10px;
+    font-size: 1.5em;
+  }
+  .game-card p {
+    margin: 0;
+    font-size: 0.9em;
+    color: rgba(255,255,255,0.8);
+  }
+  .game-card:hover {
+    transform: translateY(-10px) scale(1.05);
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+  }
+  
